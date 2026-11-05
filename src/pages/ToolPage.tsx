@@ -6,6 +6,11 @@ import { ImageResizer } from '../tools/ImageResizer';
 import { ImageToPdf } from '../tools/ImageToPdf';
 import { PdfMerger } from '../tools/PdfMerger';
 import { RequirementChecker } from '../tools/RequirementChecker';
+import { ImageCropper } from '../tools/ImageCropper';
+import { ImageConverter } from '../tools/ImageConverter';
+import { PassportPhoto } from '../tools/PassportPhoto';
+import { SignatureMaker } from '../tools/SignatureMaker';
+import { PdfSplitter } from '../tools/PdfSplitter';
 import { ComingSoonView } from '../components/ComingSoonView';
 import { ToolItem } from '../types';
 
@@ -82,6 +87,26 @@ export const ToolPage: React.FC<ToolPageProps> = ({
 
       {tool.slug === 'file-checker' && (
         <RequirementChecker onNavigateToTool={(slug) => onNavigate(`/tool/${slug}`)} />
+      )}
+
+      {tool.slug === 'image-cropper' && (
+        <ImageCropper onNavigateToTool={(slug) => onNavigate(`/tool/${slug}`)} />
+      )}
+
+      {tool.slug === 'image-converter' && (
+        <ImageConverter onNavigateToTool={(slug) => onNavigate(`/tool/${slug}`)} />
+      )}
+
+      {tool.slug === 'passport-photo' && (
+        <PassportPhoto onNavigateToTool={(slug) => onNavigate(`/tool/${slug}`)} />
+      )}
+
+      {tool.slug === 'signature-maker' && (
+        <SignatureMaker />
+      )}
+
+      {tool.slug === 'pdf-splitter' && (
+        <PdfSplitter onNavigateToTool={(slug) => onNavigate(`/tool/${slug}`)} />
       )}
     </div>
   );

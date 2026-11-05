@@ -101,7 +101,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate, onSelectTool }) => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wider text-[#5278F5] mb-1">
-              Version 1.0 Available Now
+              Version 1.2 Available Now ({activeTools.length} Active Tools)
             </div>
             <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-2xl sm:text-3xl text-[#182230] tracking-tight">
               Active Document Utilities

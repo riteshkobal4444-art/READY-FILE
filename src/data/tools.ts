@@ -66,20 +66,18 @@ export const TOOLS: ToolItem[] = [
     features: ['File size & format audit', 'Image dimension checks', 'PDF page count verification', 'Direct fix shortcuts with Readyfile tools'],
   },
 
-  // --- Coming Soon Tools (10) ---
-  // Image Tools (4 coming soon)
+  // Image Tools (Active V1.2)
   {
     id: 'image-cropper',
     slug: 'image-cropper',
     name: 'Image Cropper',
     category: 'image',
     categoryName: 'Image Tools',
-    description: 'Crop images to exact proportions, standard passport ratios, or custom freeform crops with live grid guides.',
+    description: 'Crop images to exact proportions, standard aspect ratios, or custom freeform crops with live grid guides.',
     tagline: 'Trim and frame images with pixel precision',
-    status: 'coming_soon',
+    status: 'active',
     icon: 'Crop',
     features: ['Standard aspect ratios (1:1, 4:3, 16:9)', 'Freeform drag crop', 'Zoom & rotate controls', 'Lossless crop exports'],
-    plannedRelease: 'Version 1.1',
   },
   {
     id: 'image-converter',
@@ -87,12 +85,11 @@ export const TOOLS: ToolItem[] = [
     name: 'Image Format Converter',
     category: 'image',
     categoryName: 'Image Tools',
-    description: 'Convert between PNG, JPEG, WebP, AVIF, and SVG with fine control over quality and alpha transparency.',
+    description: 'Convert between PNG, JPEG, WebP, BMP, and GIF with fine control over quality and alpha transparency.',
     tagline: 'Convert images to any standard web or print format',
-    status: 'coming_soon',
+    status: 'active',
     icon: 'RefreshCw',
-    features: ['Batch conversion', 'Format metadata preservation', 'Quality tuning', 'Instant client-side export'],
-    plannedRelease: 'Version 1.1',
+    features: ['Batch conversion', 'Format metadata preservation', 'Quality tuning', 'Instant client-side export', 'Download All (ZIP)'],
   },
   {
     id: 'passport-photo',
@@ -102,10 +99,10 @@ export const TOOLS: ToolItem[] = [
     categoryName: 'Image Tools',
     description: 'Generate standardized passport, visa, and ID photos formatted for 2x2 inch, 35x45mm, and regional official specs.',
     tagline: 'Official passport and visa dimensions with photo print sheets',
-    status: 'coming_soon',
+    status: 'active',
     icon: 'UserCheck',
-    features: ['Preset country dimensions', 'Head positioning grid', '4x6 printable photo sheet layout', 'White background guides'],
-    plannedRelease: 'Version 1.2',
+    badge: 'New',
+    features: ['Preset country dimensions', 'Head positioning grid', '300 & 600 DPI output', 'Target file size ceilings'],
   },
   {
     id: 'signature-maker',
@@ -115,13 +112,13 @@ export const TOOLS: ToolItem[] = [
     categoryName: 'Image Tools',
     description: 'Draw or type your digital signature, smoothen vector strokes, and download a transparent PNG ready for signing documents.',
     tagline: 'Create crisp transparent signatures for digital documents',
-    status: 'coming_soon',
+    status: 'active',
     icon: 'PenTool',
-    features: ['Canvas draw & stroke smoothing', 'Typewritten cursive styles', 'Transparent PNG export', 'Dark and royal blue ink options'],
-    plannedRelease: 'Version 1.2',
+    badge: 'New',
+    features: ['Canvas draw & stroke smoothing', 'Typewritten cursive styles', 'Transparent PNG export', 'Extract paper signature photo'],
   },
 
-  // PDF Tools (5 coming soon)
+  // PDF Tools (Active V1.2)
   {
     id: 'pdf-splitter',
     slug: 'pdf-splitter',
@@ -130,11 +127,13 @@ export const TOOLS: ToolItem[] = [
     categoryName: 'PDF Tools',
     description: 'Extract specific pages, page ranges, or split a multi-page PDF into individual single-page documents.',
     tagline: 'Extract select pages or split into individual files',
-    status: 'coming_soon',
+    status: 'active',
     icon: 'Split',
+    badge: 'New',
     features: ['Page range extraction (e.g. 1-3, 5)', 'Split all pages into zip', 'Thumbnail selection preview', 'Fast client-side splitting'],
-    plannedRelease: 'Version 1.1',
   },
+
+  // --- Coming Soon Tools (5) ---
   {
     id: 'pdf-compressor',
     slug: 'pdf-compressor',

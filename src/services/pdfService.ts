@@ -238,3 +238,149 @@ export async function mergePdfFiles(files: File[]): Promise<{ blob: Blob; totalP
   const blob = new Blob([mergedBytes as unknown as BlobPart], { type: 'application/pdf' });
   return { blob, totalPages };
 }
+
+/**
+ * Extract selected 1-based pages from a PDF into a single new consolidated PDF
+ */
+export async function extractPdfPages(
+  file: File,
+  pageNumbers: number[]
+): Promise<Blob> {
+  if (pageNumbers.length === 0) {
+    throw new Error('Please select at least one page to extract.');
+  }
+
+  const arrayBuffer = await readFileAsArrayBuffer(file);
+  const srcDoc = await PDFDocument.load(arrayBuffer);
+  const outDoc = await PDFDocument.create();
+
+  // Convert 1-based page numbers to 0-based indices and validate
+  const maxPage = srcDoc.getPageCount();
+  const indices = pageNumbers
+    .filter((p) => p >= 1 && p <= maxPage)
+    .map((p) => p - 1);
+
+  if (indices.length === 0) {
+    throw new Error('No valid pages found in selection.');
+  }
+
+  const copiedPages = await outDoc.copyPages(srcDoc, indices);
+  for (const page of copiedPages) {
+    outDoc.addPage(page);
+  }
+
+  const bytes = await outDoc.save();
+  return new Blob([bytes as unknown as BlobPart], { type: 'application/pdf' });
+}
+
+export interface SplitResultFile {
+  name: string;
+  blob: Blob;
+  pageCount: number;
+  size: number;
+}
+
+/**
+ * Splits every page of a PDF into individual 1-page PDF documents
+ */
+export async function splitPdfEveryPage(file: File): Promise<SplitResultFile[]> {
+  const arrayBuffer = await readFileAsArrayBuffer(file);
+  const srcDoc = await PDFDocument.load(arrayBuffer);
+  const totalPages = srcDoc.getPageCount();
+  const baseName = file.name.replace(/\.[^/.]+$/, '');
+  const results: SplitResultFile[] = [];
+
+  for (let i = 0; i < totalPages; i++) {
+    const singleDoc = await PDFDocument.create();
+    const [page] = await singleDoc.copyPages(srcDoc, [i]);
+    singleDoc.addPage(page);
+    const bytes = await singleDoc.save();
+    const blob = new Blob([bytes as unknown as BlobPart], { type: 'application/pdf' });
+    results.push({
+      name: `${baseName}_page_${i + 1}.pdf`,
+      blob,
+      pageCount: 1,
+      size: blob.size,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Splits a PDF by custom range groups (e.g. [{ name: 'Part 1', pages: [1,2,3] }])
+ */
+export async function splitPdfByRanges(
+  file: File,
+  groups: { name: string; pages: number[] }[]
+): Promise<SplitResultFile[]> {
+  const arrayBuffer = await readFileAsArrayBuffer(file);
+  const srcDoc = await PDFDocument.load(arrayBuffer);
+  const maxPage = srcDoc.getPageCount();
+  const baseName = file.name.replace(/\.[^/.]+$/, '');
+  const results: SplitResultFile[] = [];
+
+  for (let g = 0; g < groups.length; g++) {
+    const group = groups[g];
+    const indices = group.pages.filter((p) => p >= 1 && p <= maxPage).map((p) => p - 1);
+    if (indices.length === 0) continue;
+
+    const groupDoc = await PDFDocument.create();
+    const copiedPages = await groupDoc.copyPages(srcDoc, indices);
+    for (const page of copiedPages) {
+      groupDoc.addPage(page);
+    }
+    const bytes = await groupDoc.save();
+    const blob = new Blob([bytes as unknown as BlobPart], { type: 'application/pdf' });
+    results.push({
+      name: `${baseName}_${group.name.replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf`,
+      blob,
+      pageCount: copiedPages.length,
+      size: blob.size,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Splits a PDF into equal groups of N pages (e.g. groups of 5)
+ */
+export async function splitPdfGroups(
+  file: File,
+  groupSize: number
+): Promise<SplitResultFile[]> {
+  const arrayBuffer = await readFileAsArrayBuffer(file);
+  const srcDoc = await PDFDocument.load(arrayBuffer);
+  const totalPages = srcDoc.getPageCount();
+  const baseName = file.name.replace(/\.[^/.]+$/, '');
+  const results: SplitResultFile[] = [];
+
+  const safeGroupSize = Math.max(1, groupSize);
+  let groupNum = 1;
+
+  for (let i = 0; i < totalPages; i += safeGroupSize) {
+    const end = Math.min(i + safeGroupSize, totalPages);
+    const indices: number[] = [];
+    for (let p = i; p < end; p++) indices.push(p);
+
+    const groupDoc = await PDFDocument.create();
+    const copied = await groupDoc.copyPages(srcDoc, indices);
+    for (const page of copied) {
+      groupDoc.addPage(page);
+    }
+
+    const bytes = await groupDoc.save();
+    const blob = new Blob([bytes as unknown as BlobPart], { type: 'application/pdf' });
+    results.push({
+      name: `${baseName}_part_${groupNum}_pages_${i + 1}-${end}.pdf`,
+      blob,
+      pageCount: copied.length,
+      size: blob.size,
+    });
+    groupNum++;
+  }
+
+  return results;
+}
+

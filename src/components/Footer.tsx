@@ -86,87 +86,40 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Column 2: Active Tools */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-[#687386] mb-4">
-              Active V1.0 Tools
+              Active Tools (10)
             </h4>
-            <ul className="space-y-2.5 text-sm">
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/image-compressor')}
-                  className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
-                >
-                  <span>Image Compressor</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/image-resizer')}
-                  className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
-                >
-                  <span>Image Resizer</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/image-to-pdf')}
-                  className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
-                >
-                  <span>Image to PDF</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/pdf-merger')}
-                  className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
-                >
-                  <span>PDF Merger</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/file-checker')}
-                  className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
-                >
-                  <span>Requirement Checker</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
-                </button>
-              </li>
+            <ul className="space-y-2 text-xs">
+              {[
+                { name: 'Image Compressor', slug: 'image-compressor' },
+                { name: 'Image Resizer', slug: 'image-resizer' },
+                { name: 'Image to PDF', slug: 'image-to-pdf' },
+                { name: 'Image Cropper', slug: 'image-cropper' },
+                { name: 'Format Converter', slug: 'image-converter' },
+                { name: 'Passport Photo', slug: 'passport-photo' },
+                { name: 'Signature Maker', slug: 'signature-maker' },
+                { name: 'PDF Merger', slug: 'pdf-merger' },
+                { name: 'PDF Splitter', slug: 'pdf-splitter' },
+                { name: 'Requirement Checker', slug: 'file-checker' },
+              ].map((t) => (
+                <li key={t.slug}>
+                  <button
+                    onClick={() => handleNav(`/tool/${t.slug}`)}
+                    className="text-[#182230] hover:text-[#5278F5] transition-colors flex items-center gap-1.5"
+                  >
+                    <span>{t.name}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#24B47E]" />
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Column 3: Coming Soon Tools */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-[#687386] mb-4">
-              Coming Soon
+              Coming Soon (5)
             </h4>
-            <ul className="space-y-2.5 text-sm text-[#687386]">
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/passport-photo')}
-                  className="hover:text-[#182230] transition-colors"
-                >
-                  Passport Photo Maker
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/signature-maker')}
-                  className="hover:text-[#182230] transition-colors"
-                >
-                  Signature Maker
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNav('/tool/pdf-splitter')}
-                  className="hover:text-[#182230] transition-colors"
-                >
-                  PDF Splitter
-                </button>
-              </li>
+            <ul className="space-y-2.5 text-xs text-[#687386]">
               <li>
                 <button
                   onClick={() => handleNav('/tool/pdf-compressor')}
@@ -177,10 +130,34 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
+                  onClick={() => handleNav('/tool/pdf-to-images')}
+                  className="hover:text-[#182230] transition-colors"
+                >
+                  PDF to Images
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('/tool/rotate-pdf')}
+                  className="hover:text-[#182230] transition-colors"
+                >
+                  Rotate PDF
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNav('/tool/reorder-pdf')}
+                  className="hover:text-[#182230] transition-colors"
+                >
+                  Reorder PDF Pages
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => handleNav('/tool/checklist-builder')}
                   className="hover:text-[#182230] transition-colors"
                 >
-                  Checklist Builder
+                  Document Checklist Builder
                 </button>
               </li>
             </ul>

@@ -28,6 +28,9 @@ export const AllTools: React.FC<AllToolsProps> = ({ onNavigate, onSelectTool }) 
     return tool.category === filterCategory;
   });
 
+  const activeCount = TOOLS.filter((t) => t.status === 'active').length;
+  const comingSoonCount = TOOLS.filter((t) => t.status === 'coming_soon').length;
+
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pb-12">
       <Breadcrumb items={[{ label: 'All Tools' }]} onNavigate={onNavigate} />
@@ -36,13 +39,13 @@ export const AllTools: React.FC<AllToolsProps> = ({ onNavigate, onSelectTool }) 
       <div className="bg-[#FFFFFF] border border-[#E7EAF0] rounded-xl p-6 sm:p-8 flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-sm">
         <div>
           <div className="text-xs font-semibold uppercase tracking-wider text-[#5278F5] mb-1">
-            Readyfile Utility Suite
+            Readyfile Utility Suite (Version 1.2)
           </div>
           <h1 className="font-['Plus_Jakarta_Sans'] font-bold text-2xl sm:text-3xl text-[#182230] tracking-tight mb-2">
-            All Document Tools (15)
+            All Document Tools ({TOOLS.length})
           </h1>
           <p className="text-sm text-[#687386] max-w-xl">
-            Explore 5 fully functional Version 1.0 tools and preview 10 upcoming tools engineered to make document submission stress-free.
+            Explore {activeCount} fully functional tools and preview {comingSoonCount} upcoming tools engineered to make document preparation and submission stress-free.
           </p>
         </div>
 
@@ -62,11 +65,11 @@ export const AllTools: React.FC<AllToolsProps> = ({ onNavigate, onSelectTool }) 
       {/* Category Pills & Filters */}
       <div className="flex flex-wrap items-center gap-2 border-b border-[#E7EAF0] pb-4">
         {[
-          { id: 'all', label: 'All Tools (15)' },
-          { id: 'active', label: 'Active Now (5)' },
-          { id: 'image', label: 'Image Tools (7)' },
-          { id: 'pdf', label: 'PDF Tools (6)' },
-          { id: 'doc', label: 'Document Preparation (2)' },
+          { id: 'all', label: `All Tools (${TOOLS.length})` },
+          { id: 'active', label: `Active Now (${activeCount})` },
+          { id: 'image', label: `Image Tools (${TOOLS.filter((t) => t.category === 'image').length})` },
+          { id: 'pdf', label: `PDF Tools (${TOOLS.filter((t) => t.category === 'pdf').length})` },
+          { id: 'doc', label: `Document Preparation (${TOOLS.filter((t) => t.category === 'doc').length})` },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -90,11 +93,11 @@ export const AllTools: React.FC<AllToolsProps> = ({ onNavigate, onSelectTool }) 
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1 text-[#24B47E]">
             <span className="w-2 h-2 rounded-full bg-[#24B47E]" />
-            5 Functional
+            {activeCount} Functional
           </span>
           <span className="inline-flex items-center gap-1 text-[#687386]">
             <span className="w-2 h-2 rounded-full bg-[#C4C5D6]" />
-            10 Coming Soon
+            {comingSoonCount} Coming Soon
           </span>
         </div>
       </div>
